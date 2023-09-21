@@ -1,8 +1,9 @@
 ﻿@using System.Collections.Generic
 @using DailyFood.Shared
 
+
 <div class="d-flex">
-    <FoodTypeInput InputOptions="@suggestions" InputOptionSelected="FoodChosen"></FoodTypeInput>
+    <FoodTypeInput InputOptions="@InputOptions" InputOptionSelected="FoodChosen"></FoodTypeInput>
     <InputNumber @bind-Value="FoodEntry.Weight"></InputNumber>
     <InputDate @bind-Value="FoodEntry.Date"></InputDate>
 </div>
@@ -11,14 +12,10 @@
 @code {
     [Parameter, EditorRequired]
     public FoodEntry FoodEntry { get; set; } = new();
+    [Parameter]
+    public List<Food> InputOptions { get; set; } = new List<Food>();
 
-
-    private List<Food> suggestions = new List<Food>()
-    {
-        new Commodity() {name="Apple", prot100g="2"},
-        new Commodity() {name="Bread", prot100g="5"},
-        new Commodity() {name="Tuna", prot100g="25"}
-    };
+    
 
     private void FoodChosen (Food food)
     {

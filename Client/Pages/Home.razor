@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using DailyFood.Shared;
+@inject HttpClient Http;
 
 <h3>Home</h3>
 <p>Total proteins is: @GetTotalProtein()</p>
@@ -7,13 +8,17 @@
 
 @foreach (var Entry in FoodEntries)
 {
-    <FoodInput FoodEntry="Entry"></FoodInput>
+    <FoodInput FoodEntry="Entry" InputOptions="suggestions"></FoodInput>
 }
 
 
 
 
 @code {
+    RecipeData data = new ();
+
+    private List<Food> suggestions = new List<Food>();
+
     List<FoodEntry> FoodEntries = new List<FoodEntry>();
 
     private void AddEntry ()
@@ -41,5 +46,18 @@
                 total += Entry.Weight * 0.01f * Entry.FoodType.Getprot100g();
         }
         return total;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        data = await Http.GetFromJsonAsync<RecipeData>("/RecipeData") ?? new();
+        foreach (var commodity in data.commodities)
+        {
+            suggestions.Add(commodity);
+        }
+        foreach (var recipe in data.recipes)
+        {
+            suggestions.Add(recipe);
+        }
     }
 }
