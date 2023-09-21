@@ -1,9 +1,15 @@
 ﻿@page "/"
 @using DailyFood.Shared;
 @inject HttpClient Http;
+@inject LocalStorageAccessor LocalStorage;
 
 <h3>Home</h3>
-<p>Total proteins is: @GetTotalProtein()</p>
+<p>Total proteins is: @FoodEntries.Sum(e => e.Weight * 0.01 * e.FoodType?.Getprot100g())</p>
+<p>Total energy is: @FoodEntries.Sum(e => e.Weight * 0.01 * e.FoodType?.Getenergy100gkJ())</p>
+<p>Total carb is: @FoodEntries.Sum(e => e.Weight * 0.01 * e.FoodType?.Getcarb100g())</p>
+<p>Total fat is: @FoodEntries.Sum(e => e.Weight * 0.01 * e.FoodType?.Getfat100g())</p>
+<p>Total fiber is: @FoodEntries.Sum(e => e.Weight * 0.01 * e.FoodType?.Getfiber100g())</p>
+<p>Total alcohol is: @FoodEntries.Sum(e => e.Weight * 0.01 * e.FoodType?.Getalco100g())</p>
 <button @onclick="AddEntry">Add</button>
 
 @foreach (var Entry in FoodEntries)
@@ -33,20 +39,22 @@
 
     private void EntryChanged (object? sender, EventArgs e)
     {
+        //LocalStorage.SetValueAsync("Entries", FoodEntries);
         StateHasChanged();
     }
 
-
-    private float GetTotalProtein ()
+    private float GetTotalFood (Func<float> func)
     {
         float total = 0;
         foreach (var Entry in FoodEntries)
         {
             if (Entry.FoodType != null)
-                total += Entry.Weight * 0.01f * Entry.FoodType.Getprot100g();
+                total += Entry.Weight * 0.01f * func();
         }
         return total;
     }
+
+
 
     protected async override Task OnInitializedAsync()
     {
@@ -59,5 +67,10 @@
         {
             suggestions.Add(recipe);
         }
+        //FoodEntries = await LocalStorage.GetValueAsync<List<FoodEntry>>("Entries") ?? new();
+        //if (FoodEntries == null)
+        //{
+            //Console.WriteLine("Break");
+        //}
     }
 }
