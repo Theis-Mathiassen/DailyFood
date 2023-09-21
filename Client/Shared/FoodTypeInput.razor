@@ -1,0 +1,58 @@
+﻿@using System.Collections.Generic
+@using DailyFood.Shared;
+
+<div class="d-flex flex-column">
+<InputText @bind-Value="@inputValue" @oninput="NewInput" />
+@if (showOptions)
+{
+    <div>
+        <div class ="position-absolute">
+
+            <ul>
+                @foreach (var suggestion in GetMatchingInputOptions())
+                {
+                    <li @onclick="() => SelectOption(suggestion)">@suggestion.Getname()</li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+</div>
+
+@code {
+    [Parameter]
+    public string inputValue { get; set; } = "";
+    [Parameter]
+    public EventCallback<Food> InputOptionSelected { get; set; }
+    [Parameter]
+    public List<Food> InputOptions { get; set; } = new List<Food>();
+
+
+    bool showOptions => InputOptions.Exists(e => { return e.Getname() == inputValue; }) == false;
+
+    private void NewInput (ChangeEventArgs e)
+    {
+        inputValue = e.Value.ToString();
+
+        if (InputOptions.Exists(e => { return e.Getname() == inputValue; }))
+        {
+            InputOptionSelected.InvokeAsync(InputOptions.First(e => e.Getname() == inputValue));
+        }
+    }
+
+    private List<Food> GetMatchingInputOptions()
+    {
+        if (inputValue == "")
+        {
+            return new List<Food>();
+        }
+        return InputOptions.Where(s => s.Getname().Contains(inputValue, StringComparison.OrdinalIgnoreCase)).ToList() ?? new List<Food>();
+    }
+
+    private void SelectOption (Food input)
+    {
+        inputValue = input.Getname();
+        InputOptionSelected.InvokeAsync(input);
+    }
+}
+

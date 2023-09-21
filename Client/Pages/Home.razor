@@ -1,0 +1,45 @@
+﻿@page "/"
+@using DailyFood.Shared;
+
+<h3>Home</h3>
+<p>Total proteins is: @GetTotalProtein()</p>
+<button @onclick="AddEntry">Add</button>
+
+@foreach (var Entry in FoodEntries)
+{
+    <FoodInput FoodEntry="Entry"></FoodInput>
+}
+
+
+
+
+@code {
+    List<FoodEntry> FoodEntries = new List<FoodEntry>();
+
+    private void AddEntry ()
+    {
+        Console.WriteLine("Test");
+        FoodEntry newEntry = new FoodEntry();
+        newEntry.Date = DateTime.Now;
+        newEntry.FoodEntryChanged += EntryChanged;
+        FoodEntries.Add(newEntry);
+
+    }
+
+    private void EntryChanged (object? sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+
+    private float GetTotalProtein ()
+    {
+        float total = 0;
+        foreach (var Entry in FoodEntries)
+        {
+            if (Entry.FoodType != null)
+                total += Entry.Weight * 0.01f * Entry.FoodType.Getprot100g();
+        }
+        return total;
+    }
+}
