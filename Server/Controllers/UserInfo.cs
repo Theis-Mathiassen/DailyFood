@@ -8,16 +8,26 @@ namespace DailyFood.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserInfo : ControllerBase
+    public class UserInfoController : ControllerBase
     {
         static HttpClient httpClient = new HttpClient();
 
         [HttpGet]
         [Route("")]
-        //GET api/ControllerName?email="something@somthing.com"&p5=5
-        public async Task<ActionResult<UserInfo>> Get(string email)
+        //GET api/ControllerName?email="something@somthing.com"&password=xyz
+        public async Task<ActionResult<UserInfoController>> Login(string email, string password)
         {
-            Npgsql.
+
+
+            return null;
+        }
+        [HttpPost]
+        [Route("")]
+        public async Task<ActionResult<UserInfoController>> Get(string email, string password)
+        {
+
+
+            return null;
         }
 
 

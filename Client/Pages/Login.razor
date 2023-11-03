@@ -1,0 +1,36 @@
+﻿@page "/login"
+
+<h3>Login</h3>
+<EditForm Model="linfo">
+    <div class="d-flex flex-column">
+        <div>
+
+            <label for="username">Username:</label>
+            <InputText @bind-Value="linfo.username" id="username">Username:</InputText>
+        </div>
+        <div>
+
+            <label for="password">Password:</label>
+            <InputText @bind-Value="linfo.password" id="password">Password:</InputText>
+        </div>
+        <div>
+            <button @onclick="SubmitLogin">Login</button>
+        </div>
+    </div>
+</EditForm>
+<p>Don't have an account, <a href="/register">register</a> instead.</p>
+@code {
+    LoginInfo linfo = new();
+    class LoginInfo
+    {
+
+        public string username { get; set; } = "";
+        public string password { get; set; } = "";
+    }
+
+    void SubmitLogin ()
+    {
+        Console.WriteLine("Hello");
+
+    }
+}

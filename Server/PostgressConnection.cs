@@ -2,7 +2,7 @@
 {
     public static class PostgressConnection
     {
-        var connectionString = "Host=myserver;Username=mylogin;Password=mypass;Database=mydatabase";
+        static string connectionString = "Host=myserver;Username=mylogin;Password=mypass;Database=mydatabase";
         //var dataSource;
     }
 }

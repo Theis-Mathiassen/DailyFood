@@ -1,0 +1,40 @@
+﻿@page "/register"
+
+<h3>Register</h3>
+<EditForm Model="rinfo">
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-column">
+
+            <label for="username">Username:</label>
+            <InputText @bind-Value="rinfo.username" id="username">Username:</InputText>
+        </div>
+        <div class="d-flex flex-column">
+            <label for="password">Password:</label>
+            <InputText @bind-Value="rinfo.password" id="password">Password:</InputText>
+        </div>
+        <div class="d-flex flex-column">
+            <label for="password">Repeat password:</label>
+            <InputText @bind-Value="rinfo.repeatPassword" id="password">Confirm password:</InputText>
+        </div>
+        <div>
+            <button @onclick="SubmitLogin">Register</button>
+        </div>
+    </div>
+</EditForm>
+<p>Already have an account, <a href="/login">login</a> instead.</p>
+@code {
+    RegisterInfo rinfo = new();
+    class RegisterInfo
+    {
+
+        public string username { get; set; } = "";
+        public string password { get; set; } = "";
+        public string repeatPassword { get; set; } = "";
+    }
+
+    void SubmitLogin ()
+    {
+        Console.WriteLine("Hello");
+
+    }
+}

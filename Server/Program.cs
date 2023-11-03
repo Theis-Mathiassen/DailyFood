@@ -11,7 +11,7 @@ namespace DailyFood
             var builder = WebApplication.CreateBuilder(args);
 
             var dataSourceBuilder = new NpgsqlDataSourceBuilder("Host=localhost;Username=test;Password=test");
-            await using var dataSource = dataSourceBuilder.Build();
+            //await using var dataSource = dataSourceBuilder.Build();
 
 
             // Add services to the container.
